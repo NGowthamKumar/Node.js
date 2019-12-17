@@ -1,0 +1,52 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
+app.use(express.urlencoded({ extended : true }));
+app.use(express.json());
+
+mongoose.connect('mongodb://localhost:27017/mydb',{'useUnifiedTopology' : true , 'useNewUrlParser' : true },function(err){
+    if(err) console.log("can't connect MongoDB");
+    else console.log("Connected to MongoDb...");
+});
+
+const db = mongoose.connection;
+
+app.post('/create',function(req,res){
+    var idd = req.body.id;
+    var namee = req.body.name;
+    var pass = req.body.password;
+    db.collection('crud').insertOne( {id : idd , name : namee , password : pass},function(err){
+        if(err) res.send("can't insert");
+        else res.send("inserted");
+    })
+});
+
+app.post('/read',function(req,res){
+    var idd = req.body.id;
+    db.collection('crud').findOne({ id : idd},function(err,result){
+    if(err) res.send("can't read");
+    else res.send(result);
+    });
+});
+
+app.post('/update',function(req,res){
+    var idd = req.body.id;
+    var namee = req.body.name;
+    var pass = req.body.password;
+    var query = { id : idd };
+    db.collection('crud').updateOne(query,{ $set: {name : namee , password : pass}},function(err){
+        if(err) res.send("can't update");
+        else res.send("updated");
+    });
+
+});
+
+app.post('/delete',function(req,res){
+    var idd = req.body.id;
+    db.collection('crud').deleteOne({id : idd},function(err){
+        if(err) res.send("can't delete");
+        else res.send("deleted");
+    });
+});
+
+app.listen(8000);
