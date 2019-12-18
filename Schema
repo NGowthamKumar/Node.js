@@ -1,0 +1,25 @@
+import express from 'express';
+import mongoose from 'mongoose';
+const app = express();
+app.use(express.urlencoded({ extended : true }));
+app.use(express.json());
+
+mongoose.connect('mongodb://localhost:27017/mydb',{'useUnifiedTopology' : true , 'useNewUrlParser' : true },function(err){
+if(err) console.log("Can't connect MongoDB");
+else console.log("Connected to MongoDb...");
+});
+
+const Schema = mongoose.Schema;
+const schema = new mongoose.Schema({ name : String , id : Number , password : String });
+const Model = mongoose.model('crud',schema);
+
+app.post('/ins',(req,res) => {
+const note = new Model(req.body);
+note.save(function(err,result){
+if(err) res.send("Can't insert");
+else res.send("Inserted");
+});
+});
+
+app.listen(8000,() => { console.log("App running on port 8000");
+});
