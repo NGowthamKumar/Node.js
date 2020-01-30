@@ -1,0 +1,34 @@
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const app = express();
+app.use(express.json());
+
+app.post('/login',(req, res)=>{
+    let user = { name : req.body.name , id : req.body.id };
+    jwt.sign(user,'secretkey',(err, response)=>{
+        if(!err) res.send(response);
+        else res.send("error");
+     })
+})
+
+app.post('/verify', verify, (req, res)=>{
+    jwt.verify(req.token, 'secretkey', (err, resp)=>{
+        if(!err) res.send(resp);
+        else res.send("forbidden");
+    })
+})
+
+function verify(req, res, next){
+    const bearerHeader = req.headers['authorization'];
+    if (typeof bearerHeader == 'undefined'){
+        res.send("forbidden");
+    }
+    else {
+        const bearer = bearerHeader.split(' ');
+        const Token = bearer[1];
+        req.token = Token;
+        next();
+    }
+}
+
+app.listen(8000,()=> console.log("running on port 8000..."));
