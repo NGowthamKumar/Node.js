@@ -1,0 +1,21 @@
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service : 'gmail',
+    auth : {
+        user : 'mail-id',
+        pass : 'password'
+    }
+})
+
+const mailoption = {
+    from : 'sender mail-id',
+    to : 'receiver mail-id',
+    subject : 'sample subject',
+    text : 'sample text'
+}
+
+transporter.sendMail(mailoption,function(err, resp){
+    if(err) console.log("error");
+    else console.log("email sent");
+})
