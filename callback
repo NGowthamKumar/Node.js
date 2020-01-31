@@ -1,0 +1,45 @@
+var posts = [{ name : "name 1", text : "text 1" }, { name : "name 2", text : "text 2"}];
+
+function getpost(){
+    setTimeout(()=>{
+        console.log(posts);
+    }, 1000)
+}
+
+function createpost(post){
+    setTimeout(()=>{
+        posts.push(post);
+    }, 2000)
+}
+
+createpost({name : "name 3", text : "text 3"});
+getpost();
+
+/* output :
+[ { name: 'name 1', text: 'text 1' },
+  { name: 'name 2', text: 'text 2' } ]
+*/
+
+
+var posts = [{ name : "name 1", text : "text 1" }, { name : "name 2", text : "text 2"}];
+
+function getpost(){
+    setTimeout(()=>{
+        console.log(posts);
+    }, 1000)
+}
+
+function createpost(post, callback){
+    setTimeout(()=>{
+        posts.push(post);
+        callback();
+    }, 2000)
+}
+
+createpost({name : "name 3", text : "text 3"}, getpost);
+
+/* output :
+[ { name: 'name 1', text: 'text 1' },
+  { name: 'name 2', text: 'text 2' },
+  { name: 'name 3', text: 'text 3' } ]
+*/
