@@ -1,0 +1,29 @@
+var posts = [{ name : "name 1", text : "text 1" }, { name : "name 2", text : "text 2"}];
+
+function getpost(){
+    setTimeout(()=>{
+        console.log(posts);
+    }, 1000)
+}
+
+function createpost(post){
+    return new Promise((resolve, reject)=>{
+        setTimeout(()=>{
+            posts.push(post);
+            var err = false;
+            if(!err){
+                resolve();
+            }
+            else{
+                reject("error");
+            }
+        }, 2000) 
+    })
+}
+
+async function post(){
+await createpost({name : "name 3", text : "text 3"});
+getpost();
+}
+
+post();
