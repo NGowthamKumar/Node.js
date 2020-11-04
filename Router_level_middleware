@@ -1,0 +1,16 @@
+// Crud_with_syntax/src/routes/UserRoutes.js
+
+import router from '../config/router'
+import * as UserController from '../controller/UserController'
+
+router.use((req,res,next)=>{
+    console.log("Router level middleware 1...");
+    next();
+})
+
+router.post('/create',(req, res, next) => { console.log("Router level middleware 2..."); next(); } ,UserController.create_user)
+router.get('/read/:id',UserController.read_user)
+router.post('/update',UserController.update_user)
+router.get('/delete/:id',UserController.delete_user)
+
+module.exports = router;
