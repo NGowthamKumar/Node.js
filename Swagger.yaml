@@ -35,3 +35,39 @@ paths:
           description: 'Success'
         500:
           description: 'Internal server error'
+  /create:
+    post:
+      tags: [Create_user]
+      description: create user accounts
+      summary: create user profiles
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                description: unique id of users
+                example: 101
+              name:
+                type: string
+                description: name of the user
+                example: gowtham
+              password:
+                type: string
+                description: password
+                example: 123
+            required:
+              - id
+              - name
+              - password
+      responses:
+        200:
+          description: 'Success'
+        400:
+          description: 'internal server error'
