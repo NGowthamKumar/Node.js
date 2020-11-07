@@ -1,0 +1,42 @@
+// Crud_with_syntax/test/test.js
+
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+
+chai.use(chaiHttp);
+
+const testCases = [
+    
+    {
+        input:{
+            page: 2,
+            limit: 2
+        },
+        expectedStatus: 200,
+        expectLimit: 2
+    },
+    {
+        input:{
+            page: 22,
+            limit: 8
+        },
+        expectedStatus: 200,
+        expectLimit: 0
+    }
+]
+
+describe('Mocha test',()=>{
+    testCases.forEach((cases)=>{
+        it(`Get user list ${JSON.stringify(cases)}`,(done)=>{
+            chai.request('localhost:8000')
+                .get('/v1/users')
+                .query(cases.input)
+                .end((err,res)=>{
+                    if (err) { console.log("error"); }
+                    chai.expect(res.status).to.equal(cases.expectedStatus)
+                    chai.expect(res.body.docs.length).to.equal(cases.expectLimit)
+                    done();
+                })
+        })
+    })
+})
