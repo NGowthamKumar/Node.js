@@ -33,7 +33,7 @@ paths:
       responses:
         200:
           description: 'Success'
-        500:
+        400:
           description: 'Internal server error'
   /create:
     post:
@@ -61,7 +61,7 @@ paths:
               password:
                 type: string
                 description: password
-                example: 123
+                example: mahtwog
             required:
               - id
               - name
@@ -71,3 +71,73 @@ paths:
           description: 'Success'
         400:
           description: 'internal server error'
+  /read/{id}:
+    get:
+      tags: [Read_User]
+      description: get single user details
+      summary: get single user details
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: number
+          description: unique id of the user
+          required: true
+      responses:
+        200:
+          description: 'Success'
+        400:
+          description: 'Internal server error'
+  /update:
+    post:
+      tags: [update_user]
+      description: update the user details
+      summary: update the user details
+      produces: 
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                description: unique id of the user
+                example: 10
+              name:
+                type: string
+                description: new name of the user
+                example: mahtwog
+              password:
+                type: string
+                description: new password of thw user
+                example: gowtham
+            required:
+              - id
+              - name
+              - password
+      responses:
+        200:
+          description: 'Success'
+        400:
+          description: 'Internal server error'
+  /delete/{id}:
+    get:
+      tags: [delete_User]
+      description: delete single user details
+      summary: delete single user details
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: number
+          description: delete single user details
+          required: true
+      responses:
+        200:
+          description: 'Success'
+        400:
+          description: 'Internal server error'
