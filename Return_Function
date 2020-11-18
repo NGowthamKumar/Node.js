@@ -1,0 +1,9 @@
+function sample(){
+    return ()=>{
+        return ()=>{
+            return 5
+        }
+    }
+}
+          
+console.log(sample()()());
