@@ -1,0 +1,2 @@
+const validator = require('email-validator');
+console.log(validator.validate('gowthamkumar21011999@gmail.com'));
