@@ -1,0 +1,17 @@
+const db = require('monk')('localhost:27017/sampledb');
+ 
+const users = db.get('users');
+ 
+users.createIndex('sampleIndex');
+
+users.insert({ name: 'gowtham', bigdata: {"age" : 21, "city" : "coimbatore"}});
+
+users.find({ name: 'gowtham' }, '-bigdata').then(function (result) {
+  console.log(result);
+});
+
+users.find({}, {sort: {name: 1}}).then(function (result) {
+  console.log(result);
+});
+
+users.remove({ name: 'gowtham' });
