@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Chat</title>
+    <style>
+      body { font-family: Arial; text-align: center; }
+      #messages { border: 1px solid #ccc; padding: 10px; width: 300px; margin: 20px auto; height: 200px; overflow-y: scroll; }
+    </style>
+  </head>
+  <body>
+    <h2>Real-Time Chat</h2>
+    <div id="messages"></div>
+    <input id="msgInput" placeholder="Type a message..." autocomplete="off" />
+    <button id="sendBtn">Send</button>
+
+    <!-- Socket.IO client script -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io(); // connect to the same server
+
+      const msgInput = document.getElementById("msgInput");
+      const messagesDiv = document.getElementById("messages");
+      const sendBtn = document.getElementById("sendBtn");
+
+      // send message to server
+      sendBtn.addEventListener("click", () => {
+        const message = msgInput.value;
+        if (message.trim() !== "") {
+          socket.emit("sendMessage", message); // send to server
+          msgInput.value = "";
+        }
+      });
+
+      // listen for messages from server
+      socket.on("receiveMessage", (msg) => {
+        const p = document.createElement("p");
+        p.textContent = msg;
+        messagesDiv.appendChild(p);
+      });
+    </script>
+  </body>
+</html>
